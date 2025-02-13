@@ -506,6 +506,20 @@ func (c *boolChecker) ArgNames() []string {
 	return []string{"got"}
 }
 
+// IsLessThan is a Checker verifying that the provided value is less than the
+// given reference value.
+//
+// For instance:
+//
+//	c.Assert(value, qt.IsLessThan, 0)
+//	c.Assert(value, qt.IsLessThan, 99.99)
+var IsLessThan Checker = newBinaryArithmeticChecker(func(value, reference *big.Float) error {
+	if value.Cmp(reference) != -1 {
+		return errors.New("value is not less than reference")
+	}
+	return nil
+})
+
 // binaryArithmeticChecker is a generic arithmetic binary checker that accepts
 // two numeric operands and a check function. The raw operands (got and want)
 // are first converted to *big.Float and then will be submitted to the check

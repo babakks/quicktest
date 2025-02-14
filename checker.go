@@ -534,6 +534,20 @@ var IsLessThanOrEqual Checker = newBinaryArithmeticChecker(func(value, reference
 	return nil
 })
 
+// IsGreaterThan is a Checker verifying that the provided value is greater than
+// the given reference value.
+//
+// For instance:
+//
+//	c.Assert(value, qt.IsGreaterThan, 0)
+//	c.Assert(value, qt.IsGreaterThan, 99.99)
+var IsGreaterThan Checker = newBinaryArithmeticChecker(func(value, reference *big.Float) error {
+	if value.Cmp(reference) != 1 {
+		return errors.New("value is not greater than reference")
+	}
+	return nil
+})
+
 // binaryArithmeticChecker is a generic arithmetic binary checker that accepts
 // two numeric operands and a check function. The raw operands (got and want)
 // are first converted to *big.Float and then will be submitted to the check
